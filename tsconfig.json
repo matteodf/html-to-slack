@@ -12,5 +12,9 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "rootDir": "./src"
+  },
+  "tsc-alias": {
+    "resolveFullPaths": true,
+    "verbose": false
   }
 }

@@ -7,9 +7,9 @@
 const config = {
   clearMocks: true,
   collectCoverage: true,
-  coverageDirectory: "coverage",
-  coverageProvider: "v8",
-  preset: "ts-jest",
+  coverageDirectory: 'coverage',
+  coverageProvider: 'v8',
+  preset: 'ts-jest',
 };
 
-module.exports = config;
+export default config;
