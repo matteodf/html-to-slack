@@ -16,7 +16,7 @@
     "build": "npm run clean && tsc && tsc-alias",
     "prepublishOnly": "npm run build",
     "lint": "eslint 'src/**/*.{ts,tsx,js}' 'tests/**/*.{ts,tsx,js}'",
-    "lint:fix": "eslint 'src/**/*.{ts,tsx,js}' --fix",
+    "lint:fix": "eslint 'src/**/*.{ts,tsx,js}' 'tests/**/*.{ts,tsx,js}' --fix",
     "format": "prettier --write 'src/**/*.{ts,tsx,js,json,md}' 'tests/**/*.{ts,tsx,js}'",
     "test": "jest",
     "test:errors": "jest --testPathPattern=tests/errors/*",

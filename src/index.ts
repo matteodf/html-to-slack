@@ -17,15 +17,15 @@ import {
  */
 function convertHtmlToSlackBlocks(html: string): (
   | {
-    type: 'rich_text';
-    elements: (
-      | RichTextSection
-      | RichTextList
-      | RichTextPreformatted
-      | RichTextQuote
-      | RichTextElement
-    )[];
-  }
+      type: 'rich_text';
+      elements: (
+        | RichTextSection
+        | RichTextList
+        | RichTextPreformatted
+        | RichTextQuote
+        | RichTextElement
+      )[];
+    }
   | HeaderBlock
   | ImageBlockUrl
   | ImageBlockSlack

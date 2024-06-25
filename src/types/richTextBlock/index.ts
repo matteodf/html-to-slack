@@ -1,112 +1,112 @@
 export type Channel = {
-    type: 'channel';
-    channel_id: string;
-    style?: {
-        bold?: boolean;
-        italic?: boolean;
-        strike?: boolean;
-        highlight?: string;
-        client_highlight?: string;
-        unlink?: boolean;
-    };
+  type: 'channel';
+  channel_id: string;
+  style?: {
+    bold?: boolean;
+    italic?: boolean;
+    strike?: boolean;
+    highlight?: string;
+    client_highlight?: string;
+    unlink?: boolean;
+  };
 };
 
 export type Emoji = {
-    type: 'emoji';
-    name: string;
+  type: 'emoji';
+  name: string;
 };
 
 export type Link = {
-    type: 'link';
-    url: string;
-    text?: string;
-    unsafe?: boolean;
-    style?: {
-        bold?: boolean;
-        italic?: boolean;
-        strike?: boolean;
-        code?: boolean;
-    };
+  type: 'link';
+  url: string;
+  text?: string;
+  unsafe?: boolean;
+  style?: {
+    bold?: boolean;
+    italic?: boolean;
+    strike?: boolean;
+    code?: boolean;
+  };
 };
 
 export type RichText = {
-    type: 'text';
-    text: string;
-    style?: {
-        bold?: boolean;
-        italic?: boolean;
-        strike?: boolean;
-        code?: boolean;
-    };
+  type: 'text';
+  text: string;
+  style?: {
+    bold?: boolean;
+    italic?: boolean;
+    strike?: boolean;
+    code?: boolean;
+  };
 };
 
 export type User = {
-    type: 'user';
-    user_id: string;
-    style?: {
-        bold?: boolean;
-        italic?: boolean;
-        strike?: boolean;
-        highlight?: string;
-        client_highlight?: string;
-        unlink?: boolean;
-    };
+  type: 'user';
+  user_id: string;
+  style?: {
+    bold?: boolean;
+    italic?: boolean;
+    strike?: boolean;
+    highlight?: string;
+    client_highlight?: string;
+    unlink?: boolean;
+  };
 };
 
 export type Usergroup = {
-    type: 'usergroup';
-    usergroup_id: string;
-    style?: {
-        bold?: boolean;
-        italic?: boolean;
-        strike?: boolean;
-        highlight?: string;
-        client_highlight?: string;
-        unlink?: boolean;
-    };
+  type: 'usergroup';
+  usergroup_id: string;
+  style?: {
+    bold?: boolean;
+    italic?: boolean;
+    strike?: boolean;
+    highlight?: string;
+    client_highlight?: string;
+    unlink?: boolean;
+  };
 };
 
 export type RichTextElement =
-    | Channel
-    | Emoji
-    | Link
-    | RichText
-    | User
-    | Usergroup;
+  | Channel
+  | Emoji
+  | Link
+  | RichText
+  | User
+  | Usergroup;
 
 export type RichTextSection = {
-    type: 'rich_text_section';
-    elements: RichTextElement[];
+  type: 'rich_text_section';
+  elements: RichTextElement[];
 };
 
 export type RichTextList = {
-    type: 'rich_text_list';
-    style: 'bullet' | 'ordered';
-    elements: RichTextSection[];
-    indent?: number;
-    offset?: number;
-    border?: number;
+  type: 'rich_text_list';
+  style: 'bullet' | 'ordered';
+  elements: RichTextSection[];
+  indent?: number;
+  offset?: number;
+  border?: number;
 };
 
 export type RichTextPreformatted = {
-    type: 'rich_text_preformatted';
-    elements: RichTextElement[];
-    border?: number;
+  type: 'rich_text_preformatted';
+  elements: RichTextElement[];
+  border?: number;
 };
 
 export type RichTextQuote = {
-    type: 'rich_text_quote';
-    elements: RichTextElement[];
-    border?: number;
+  type: 'rich_text_quote';
+  elements: RichTextElement[];
+  border?: number;
 };
 
 export type RichTextBlock = {
-    type: 'rich_text';
-    elements: (
-        | RichTextSection
-        | RichTextList
-        | RichTextPreformatted
-        | RichTextQuote
-    )[];
-    block_id?: string;
+  type: 'rich_text';
+  elements: (
+    | RichTextSection
+    | RichTextList
+    | RichTextPreformatted
+    | RichTextQuote
+  )[];
+  block_id?: string;
 };
