@@ -1,48 +1,121 @@
-/**
- * Cleans and normalizes text, handling preformatted text differently.
- *
- * @param {string} text - The text to clean.
- * @param {boolean} [insidePre=false] - Indicates if the text is inside a preformatted tag. Defaults to false.
- * @returns {string} - The cleaned text.
- */
-export function cleanText(text: string, insidePre: boolean = false): string {
-  if (typeof text !== 'string') {
-    console.error(
-      'Expected a string for cleanText, but received:',
-      typeof text
-    );
-    return '';
-  }
+import { parseDocument } from 'htmlparser2';
+import { DomUtils } from 'htmlparser2';
+import { Element as DomElement } from 'domhandler';
+import {
+  HeaderBlock,
+  ImageBlock,
+  RichTextElement,
+  RichTextList,
+  RichTextPreformatted,
+  RichTextQuote,
+  RichTextSection,
+} from '../types';
 
-  try {
-    if (insidePre) {
-      // Normalize line endings to \n
-      text = text.replace(/\r\n?/g, '\n');
-      // Split lines and find the minimum indentation level (excluding empty lines)
-      const lines = text.split('\n');
-      const nonEmptyLines = lines.filter((line) => line.trim() !== '');
-      const minIndent = Math.min(
-        ...nonEmptyLines.map((line) => line.match(/^\s*/)![0].length)
+export function linearizeLists(input: string): string {
+  // Create a temporary container to parse the input HTML
+  const document = parseDocument(input);
+  const result: string[] = [];
+
+  function processList(element: DomElement, indent: number): void {
+    const tagName = element.tagName;
+
+    const items: string[] = [];
+    DomUtils.getChildren(element).forEach((child) => {
+      if (DomUtils.isTag(child) && child.tagName === 'li') {
+        items.push(
+          `<li>${DomUtils.getInnerHTML(child)
+            .trim()
+            .replace(/<ul[\s\S]*?<\/ul>/g, '')
+            .replace(/<ol[\s\S]*?<\/ol>/g, '')}</li>`
+        );
+
+        // Check for nested lists
+        const nestedList = DomUtils.getChildren(child).find(
+          (nested) =>
+            DomUtils.isTag(nested) &&
+            (nested.tagName === 'ul' || nested.tagName === 'ol')
+        );
+        if (nestedList) {
+          result.push(
+            `<${tagName} indent=${indent}>${items.join('')}</${tagName}>`
+          );
+          items.length = 0; // Clear items array
+          processList(nestedList as DomElement, indent + 1);
+        }
+      }
+    });
+
+    if (items.length > 0) {
+      result.push(
+        `<${tagName} indent=${indent}>${items.join('')}</${tagName}>`
       );
-
-      // Remove the common leading indentation from all lines
-      const cleanedLines = lines.map((line) =>
-        line.startsWith(' '.repeat(minIndent)) ? line.slice(minIndent) : line
-      );
-
-      return cleanedLines.join('\n');
     }
-    let cleanedText = text.trim().replace(/\n[^\S\t]+/g, '\n');
-    cleanedText = cleanedText.replace(/\n^\s*[•◦‣]\s*[\t]*$/gm, ''); // Remove lines that contain only bullet points and spaces/tabs
-    // Remove trailing spaces from each line
-    cleanedText = cleanedText
-      .split('\n')
-      .map((line) => line.trimEnd())
-      .join('\n');
-
-    return cleanedText;
-  } catch (error) {
-    console.error('Error cleaning text:', error);
-    return text.toString();
   }
+
+  DomUtils.getElementsByTagName('ul', document)
+    .concat(DomUtils.getElementsByTagName('ol', document))
+    .forEach((element) => {
+      const parent = DomUtils.getParent(element);
+
+      if (
+        parent &&
+        DomUtils.isTag(parent) &&
+        (parent.tagName === 'li' ||
+          parent.tagName === 'ul' ||
+          parent.tagName === 'ol')
+      )
+        return;
+      processList(element, 0);
+      const newElement = result.join('');
+      input = input.replace(DomUtils.getOuterHTML(element), newElement);
+      result.length = 0;
+    });
+
+  return input;
+}
+
+export function blockBuilder(
+  array: (
+    | RichTextSection
+    | RichTextList
+    | RichTextPreformatted
+    | RichTextQuote
+    | RichTextElement
+    | HeaderBlock
+    | ImageBlock
+  )[]
+) {
+  const blocks = [];
+  let richTextBlocks: {
+    type: 'rich_text';
+    elements: (
+      | RichTextSection
+      | RichTextList
+      | RichTextPreformatted
+      | RichTextQuote
+      | RichTextElement
+    )[];
+  } = {
+    type: 'rich_text',
+    elements: [],
+  };
+  for (let i = 0; i < array.length; i++) {
+    const block = array[i];
+    if (block.type === 'image' || block.type === 'header') {
+      if (richTextBlocks.elements.length > 0) {
+        blocks.push(richTextBlocks);
+        richTextBlocks = {
+          type: 'rich_text',
+          elements: [],
+        };
+      }
+      blocks.push(block);
+    } else {
+      richTextBlocks.elements.push(block);
+    }
+  }
+  if (richTextBlocks.elements.length > 0) {
+    blocks.push(richTextBlocks);
+  }
+  return blocks;
 }

@@ -278,3 +278,137 @@ export type HeaderBlock = {
  * Represents a Slack block element, which can be a section or a header.
  */
 export type Block = SectionBlock | HeaderBlock;
+
+export type Channel = {
+  type: 'channel';
+  channel_id: string;
+  style?: {
+    bold?: boolean;
+    italic?: boolean;
+    strike?: boolean;
+    highlight?: string;
+    client_highlight?: string;
+    unlink?: boolean;
+  };
+};
+
+export type Emoji = {
+  type: 'emoji';
+  name: string;
+};
+
+export type Link = {
+  type: 'link';
+  url: string;
+  text?: string;
+  unsafe?: boolean;
+  style?: {
+    bold?: boolean;
+    italic?: boolean;
+    strike?: boolean;
+    code?: boolean;
+  };
+};
+
+export type RichText = {
+  type: 'text';
+  text: string;
+  style?: {
+    bold?: boolean;
+    italic?: boolean;
+    strike?: boolean;
+    code?: boolean;
+  };
+};
+
+export type User = {
+  type: 'user';
+  user_id: string;
+  style?: {
+    bold?: boolean;
+    italic?: boolean;
+    strike?: boolean;
+    highlight?: string;
+    client_highlight?: string;
+    unlink?: boolean;
+  };
+};
+
+export type Usergroup = {
+  type: 'usergroup';
+  usergroup_id: string;
+  style?: {
+    bold?: boolean;
+    italic?: boolean;
+    strike?: boolean;
+    highlight?: string;
+    client_highlight?: string;
+    unlink?: boolean;
+  };
+};
+
+export type RichTextElement =
+  | Channel
+  | Emoji
+  | Link
+  | RichText
+  | User
+  | Usergroup;
+
+export type RichTextSection = {
+  type: 'rich_text_section';
+  elements: RichTextElement[];
+};
+
+export type RichTextList = {
+  type: 'rich_text_list';
+  style: 'bullet' | 'ordered';
+  elements: RichTextSection[];
+  indent?: number;
+  offset?: number;
+  border?: number;
+};
+
+export type RichTextPreformatted = {
+  type: 'rich_text_preformatted';
+  elements: RichTextElement[];
+  border?: number;
+};
+
+export type RichTextQuote = {
+  type: 'rich_text_quote';
+  elements: RichTextElement[];
+  border?: number;
+};
+
+export type RichTextBlock = {
+  type: 'rich_text';
+  elements: (
+    | RichTextSection
+    | RichTextList
+    | RichTextPreformatted
+    | RichTextQuote
+  )[];
+  block_id?: string;
+};
+
+export type ImageBlockUrl = {
+  type: 'image';
+  alt_text: string;
+  image_url: string;
+  title?: PlainText;
+  block_id?: string;
+};
+
+export type ImageBlockSlack = {
+  type: 'image';
+  alt_text: string;
+  slack_file: {
+    url?: string;
+    id?: string;
+  };
+  title?: PlainText;
+  block_id?: string;
+};
+
+export type ImageBlock = ImageBlockUrl | ImageBlockSlack;
