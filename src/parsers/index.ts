@@ -27,8 +27,24 @@ function findDomElementsByTagName(dom: AnyNode[], tag: string) {
   );
 }
 
-function parseNode(node: AnyNode) {
-  let block:
+const nodes = [
+  'ul',
+  'ol',
+  'li',
+  'pre',
+  'blockquote',
+  'img',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'p',
+];
+
+function parseNodeElement(node: AnyNode) {
+  const block:
     | RichTextSection
     | RichTextList
     | RichTextPreformatted
@@ -41,6 +57,43 @@ function parseNode(node: AnyNode) {
     | RichTextPreformatted
     | RichTextQuote
     | RichTextElement
+    | HeaderBlock
+    | ImageBlock;
+  switch (node.type) {
+    case 'tag': {
+      switch (node.name) {
+        case 'b':
+        case 'strong':
+        case 'i':
+        case 'em':
+        case 's':
+        case 'del':
+        case 'code':
+        case 'a':
+          return parseText(node);
+        default:
+          break;
+      }
+      break;
+    }
+    case 'text':
+      return parseText(node);
+  }
+  return block;
+}
+
+function parseNode(node: AnyNode) {
+  let block:
+    | RichTextSection
+    | RichTextList
+    | RichTextPreformatted
+    | RichTextQuote
+    | HeaderBlock
+    | ImageBlock = {} as
+    | RichTextSection
+    | RichTextList
+    | RichTextPreformatted
+    | RichTextQuote
     | HeaderBlock
     | ImageBlock;
   switch (node.type) {
@@ -86,15 +139,6 @@ function parseNode(node: AnyNode) {
             };
           }
           break;
-        case 'b':
-        case 'strong':
-        case 'i':
-        case 'em':
-        case 's':
-        case 'del':
-        case 'code':
-        case 'a':
-          return parseText(node);
         case 'p':
           block = {
             type: 'rich_text_section',
@@ -108,12 +152,13 @@ function parseNode(node: AnyNode) {
         case 'h5':
         case 'h6':
           return parseHeader(node);
-        default:
-          break;
       }
       if (block && node.children) {
         for (const child of node.children) {
-          const childObj = parseNode(child);
+          const childObj =
+            child.type === 'tag' && nodes.includes(child.name)
+              ? parseNode(child)
+              : parseNodeElement(child);
           if (childObj && 'elements' in block) {
             if (!Array.isArray(childObj)) {
               (block.elements as RichTextElement[]).push(
@@ -130,8 +175,6 @@ function parseNode(node: AnyNode) {
       }
       break;
     }
-    case 'text':
-      return parseText(node);
   }
   return block;
 }
@@ -286,20 +329,11 @@ export function parseHtml(html: string) {
     | RichTextList
     | RichTextPreformatted
     | RichTextQuote
-    | RichTextElement
     | HeaderBlock
     | ImageBlock
   )[] = [];
   body.children.forEach((node) => {
-    const tmp = parseNode(node);
-    if (!Array.isArray(tmp)) {
-      blocks.push(tmp);
-    } else {
-      const regex = /^(?!\n\s*$).*/;
-      blocks.push(
-        ...tmp.filter((block) => block.text && regex.test(block.text as string))
-      );
-    }
+    blocks.push(parseNode(node));
   });
   const blocksObj = blockBuilder(blocks);
 

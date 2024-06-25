@@ -4,7 +4,7 @@ import { Element as DomElement } from 'domhandler';
 import { HeaderBlock } from '../types/headerBlock';
 import { ImageBlock } from '../types/imageBlock';
 import {
-  RichTextElement,
+  RichTextBlock,
   RichTextList,
   RichTextPreformatted,
   RichTextQuote,
@@ -80,22 +80,12 @@ export function blockBuilder(
     | RichTextList
     | RichTextPreformatted
     | RichTextQuote
-    | RichTextElement
     | HeaderBlock
     | ImageBlock
   )[]
 ) {
   const blocks = [];
-  let richTextBlocks: {
-    type: 'rich_text';
-    elements: (
-      | RichTextSection
-      | RichTextList
-      | RichTextPreformatted
-      | RichTextQuote
-      | RichTextElement
-    )[];
-  } = {
+  let richTextBlocks: RichTextBlock = {
     type: 'rich_text',
     elements: [],
   };
