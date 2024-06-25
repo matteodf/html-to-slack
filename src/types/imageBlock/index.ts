@@ -1,3 +1,10 @@
+/**
+ * This file contains all the types for Slack image block.
+ *
+ * For more information about image block, see
+ * https://api.slack.com/reference/block-kit/blocks#image
+ */
+
 import { PlainText } from '../compositionObjects';
 
 export type ImageBlockUrl = {

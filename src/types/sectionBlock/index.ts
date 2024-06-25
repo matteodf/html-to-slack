@@ -1,3 +1,10 @@
+/**
+ * This file contains all the types for Slack section block.
+ *
+ * For more information about section block, see
+ * https://api.slack.com/reference/block-kit/blocks#section
+ */
+
 import {
   Button,
   Checkbox,
@@ -10,9 +17,6 @@ import {
   Timepicker,
 } from '../blockElements';
 
-/**
- * Represents a section block in Slack.
- */
 export type SectionBlock = {
   type: 'section';
   text: Text;

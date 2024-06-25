@@ -1,3 +1,10 @@
+/**
+ * This file contains all the types for Slack block elements.
+ *
+ * For more information about block elements, see
+ * https://api.slack.com/reference/block-kit/block-elements
+ */
+
 import {
   CheckboxOption,
   Confirmation,
@@ -11,9 +18,6 @@ import {
   SlackFile,
 } from '../compositionObjects';
 
-/**
- * Represents a button element in Slack.
- */
 export type Button = {
   type: 'button';
   text: PlainText;
@@ -25,9 +29,6 @@ export type Button = {
   accessibility_label?: string;
 };
 
-/**
- * Represents a checkbox group in Slack.
- */
 export type Checkbox = {
   type: 'checkboxes';
   options: CheckboxOption[];
@@ -37,9 +38,6 @@ export type Checkbox = {
   focus_on_load?: boolean;
 };
 
-/**
- * Represents a date picker element in Slack.
- */
 export type DatePicker = {
   type: 'datepicker';
   action_id?: string;
@@ -49,32 +47,20 @@ export type DatePicker = {
   placeholder?: PlainText;
 };
 
-/**
- * Represents an image element referenced by URL in Slack.
- */
 export type ImageURL = {
   type: 'image';
   alt_text: string;
   image_url: string;
 };
 
-/**
- * Represents an image element referenced by a Slack file in Slack.
- */
 export type ImageFile = {
   type: 'image';
   alt_text: string;
   slack_file: SlackFile;
 };
 
-/**
- * Represents an image element in Slack, which can be referenced either by URL or by a Slack file.
- */
 export type Image = ImageURL | ImageFile;
 
-/**
- * Represents a multiselect menu in Slack.
- */
 export type Multiselect = {
   type: 'multi_static_select';
   options: MultiselectOption[];
@@ -87,9 +73,6 @@ export type Multiselect = {
   placeholder?: PlainText;
 };
 
-/**
- * Represents an overflow menu in Slack.
- */
 export type Overflow = {
   type: 'overflow';
   options: OverflowOption[];
@@ -97,9 +80,6 @@ export type Overflow = {
   confirm?: Confirmation;
 };
 
-/**
- * Represents a radio button group in Slack.
- */
 export type Radio = {
   type: 'radio_buttons';
   options: RadioOption[];
@@ -109,9 +89,6 @@ export type Radio = {
   focus_on_load?: boolean;
 };
 
-/**
- * Represents a static select menu in Slack.
- */
 export type Select = {
   type: 'static_select';
   options: SelectOption[];
@@ -123,9 +100,6 @@ export type Select = {
   placeholder?: PlainText;
 };
 
-/**
- * Represents a time picker element in Slack.
- */
 export type Timepicker = {
   type: 'timepicker';
   action_id?: string;

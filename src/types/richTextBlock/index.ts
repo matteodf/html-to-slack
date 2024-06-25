@@ -1,3 +1,10 @@
+/**
+ * This file contains all the types for Slack rich text block.
+ *
+ * For more information about rich text block, see
+ * https://api.slack.com/reference/block-kit/blocks#rich_text
+ */
+
 export type Channel = {
   type: 'channel';
   channel_id: string;
