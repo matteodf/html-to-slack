@@ -1,8 +1,8 @@
 import { AnyNode, Element } from 'domhandler';
 import { parseDocument, DomUtils } from 'htmlparser2';
+import { HeaderBlock } from '../types/headerBlock';
+import { ImageBlock } from '../types/imageBlock';
 import {
-  HeaderBlock,
-  ImageBlock,
   Link,
   RichText,
   RichTextElement,
@@ -10,7 +10,8 @@ import {
   RichTextPreformatted,
   RichTextQuote,
   RichTextSection,
-} from '../types';
+} from '../types/richTextBlock';
+
 import { blockBuilder, linearizeLists } from '../utils';
 
 /**

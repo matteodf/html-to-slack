@@ -1,15 +1,15 @@
 import { parseDocument } from 'htmlparser2';
 import { DomUtils } from 'htmlparser2';
 import { Element as DomElement } from 'domhandler';
+import { HeaderBlock } from '../types/headerBlock';
+import { ImageBlock } from '../types/imageBlock';
 import {
-  HeaderBlock,
-  ImageBlock,
   RichTextElement,
   RichTextList,
   RichTextPreformatted,
   RichTextQuote,
   RichTextSection,
-} from '../types';
+} from '../types/richTextBlock';
 
 export function linearizeLists(input: string): string {
   // Create a temporary container to parse the input HTML

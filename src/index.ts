@@ -1,14 +1,13 @@
 import { parseHtml } from './parsers';
+import { HeaderBlock } from './types/headerBlock';
+import { ImageBlockUrl, ImageBlockSlack } from './types/imageBlock';
 import {
-  HeaderBlock,
-  ImageBlockSlack,
-  ImageBlockUrl,
   RichTextElement,
   RichTextList,
   RichTextPreformatted,
   RichTextQuote,
   RichTextSection,
-} from './types';
+} from './types/richTextBlock';
 
 /**
  * Converts an HTML string to Slack blocks.
@@ -18,15 +17,15 @@ import {
  */
 function convertHtmlToSlackBlocks(html: string): (
   | {
-      type: 'rich_text';
-      elements: (
-        | RichTextSection
-        | RichTextList
-        | RichTextPreformatted
-        | RichTextQuote
-        | RichTextElement
-      )[];
-    }
+    type: 'rich_text';
+    elements: (
+      | RichTextSection
+      | RichTextList
+      | RichTextPreformatted
+      | RichTextQuote
+      | RichTextElement
+    )[];
+  }
   | HeaderBlock
   | ImageBlockUrl
   | ImageBlockSlack
