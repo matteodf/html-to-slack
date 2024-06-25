@@ -12,42 +12,39 @@ import {
 } from '../types/richTextBlock';
 
 export function linearizeLists(input: string): string {
-  // Create a temporary container to parse the input HTML
   const document = parseDocument(input);
   const result: string[] = [];
 
-  function processList(element: DomElement, indent: number): void {
-    const tagName = element.tagName;
+  function processList(listElement: DomElement, indentLevel: number): void {
+    const listType = listElement.tagName;
+    const listItems: string[] = [];
 
-    const items: string[] = [];
-    DomUtils.getChildren(element).forEach((child) => {
+    DomUtils.getChildren(listElement).forEach((child) => {
       if (DomUtils.isTag(child) && child.tagName === 'li') {
-        items.push(
-          `<li>${DomUtils.getInnerHTML(child)
-            .trim()
-            .replace(/<ul[\s\S]*?<\/ul>/g, '')
-            .replace(/<ol[\s\S]*?<\/ol>/g, '')}</li>`
-        );
+        const listItemContent = DomUtils.getInnerHTML(child)
+          .trim()
+          .replace(/<ul[\s\S]*?<\/ul>/g, '')
+          .replace(/<ol[\s\S]*?<\/ol>/g, '');
+        listItems.push(`<li>${listItemContent}</li>`);
 
-        // Check for nested lists
         const nestedList = DomUtils.getChildren(child).find(
-          (nested) =>
-            DomUtils.isTag(nested) &&
-            (nested.tagName === 'ul' || nested.tagName === 'ol')
+          (nestedChild) =>
+            DomUtils.isTag(nestedChild) &&
+            (nestedChild.tagName === 'ul' || nestedChild.tagName === 'ol')
         );
         if (nestedList) {
           result.push(
-            `<${tagName} indent=${indent}>${items.join('')}</${tagName}>`
+            `<${listType} indent=${indentLevel}>${listItems.join('')}</${listType}>`
           );
-          items.length = 0; // Clear items array
-          processList(nestedList as DomElement, indent + 1);
+          listItems.length = 0;
+          processList(nestedList as DomElement, indentLevel + 1);
         }
       }
     });
 
-    if (items.length > 0) {
+    if (listItems.length > 0) {
       result.push(
-        `<${tagName} indent=${indent}>${items.join('')}</${tagName}>`
+        `<${listType} indent=${indentLevel}>${listItems.join('')}</${listType}>`
       );
     }
   }
