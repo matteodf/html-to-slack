@@ -174,7 +174,7 @@ describe('convertHtmlToSlackBlocks', () => {
 
   it('should handle nested lists', () => {
     const html =
-      '<ul><li>Item 1<ul><li>Subitem 1</li></ul></li><li>Item 2<ul><li>Subitem 2<ul><li>Sub-sub-item 2</li></ul></li></ul></li></ul>';
+      '<ul><li>1<ul><li>1.1</li><li>1.2<ul><li>1.2.1</li><li>1.2.2</li></ul></li><li>1.3</li></ul></li></ul><ol><li>A<ol><li>a.a</li><li>a.b<ol><li>a.b.a</li></ol></li><li>A.c</li></ol></li><li>B</li></ol>';
     const expectedBlocks = [
       {
         type: 'rich_text',
@@ -189,7 +189,7 @@ describe('convertHtmlToSlackBlocks', () => {
                 elements: [
                   {
                     type: 'text',
-                    text: 'Item 1',
+                    text: '1',
                   },
                 ],
               },
@@ -205,39 +205,16 @@ describe('convertHtmlToSlackBlocks', () => {
                 elements: [
                   {
                     type: 'text',
-                    text: 'Subitem 1',
+                    text: '1.1',
                   },
                 ],
               },
-            ],
-          },
-          {
-            type: 'rich_text_list',
-            style: 'bullet',
-            indent: 0,
-            elements: [
               {
                 type: 'rich_text_section',
                 elements: [
                   {
                     type: 'text',
-                    text: 'Item 2',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            type: 'rich_text_list',
-            style: 'bullet',
-            indent: 1,
-            elements: [
-              {
-                type: 'rich_text_section',
-                elements: [
-                  {
-                    type: 'text',
-                    text: 'Subitem 2',
+                    text: '1.2',
                   },
                 ],
               },
@@ -253,7 +230,121 @@ describe('convertHtmlToSlackBlocks', () => {
                 elements: [
                   {
                     type: 'text',
-                    text: 'Sub-sub-item 2',
+                    text: '1.2.1',
+                  },
+                ],
+              },
+              {
+                type: 'rich_text_section',
+                elements: [
+                  {
+                    type: 'text',
+                    text: '1.2.2',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: 'rich_text_list',
+            style: 'bullet',
+            indent: 1,
+            elements: [
+              {
+                type: 'rich_text_section',
+                elements: [
+                  {
+                    type: 'text',
+                    text: '1.3',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: 'rich_text_list',
+            style: 'ordered',
+            indent: 0,
+            elements: [
+              {
+                type: 'rich_text_section',
+                elements: [
+                  {
+                    type: 'text',
+                    text: 'A',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: 'rich_text_list',
+            style: 'ordered',
+            indent: 1,
+            elements: [
+              {
+                type: 'rich_text_section',
+                elements: [
+                  {
+                    type: 'text',
+                    text: 'a.a',
+                  },
+                ],
+              },
+              {
+                type: 'rich_text_section',
+                elements: [
+                  {
+                    type: 'text',
+                    text: 'a.b',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: 'rich_text_list',
+            style: 'ordered',
+            indent: 2,
+            elements: [
+              {
+                type: 'rich_text_section',
+                elements: [
+                  {
+                    type: 'text',
+                    text: 'a.b.a',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: 'rich_text_list',
+            style: 'ordered',
+            indent: 1,
+            elements: [
+              {
+                type: 'rich_text_section',
+                elements: [
+                  {
+                    type: 'text',
+                    text: 'A.c',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: 'rich_text_list',
+            style: 'ordered',
+            indent: 0,
+            elements: [
+              {
+                type: 'rich_text_section',
+                elements: [
+                  {
+                    type: 'text',
+                    text: 'B',
                   },
                 ],
               },

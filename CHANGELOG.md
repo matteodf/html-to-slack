@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2024-07-02
+
+### Fixed
+
+- Fixed bug when handling HTML strings with nested list items (fix [#3](https://github.com/matteodf/html-to-slack/issues/3))
+
 ## [0.2.0] - 2024-06-26
 
 WARNING: This release introduces some breaking changes. Please make sure to change the types path accordingly after upgrading.

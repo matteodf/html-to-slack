@@ -24,7 +24,8 @@ export function linearizeLists(input: string): string {
         const listItemContent = DomUtils.getInnerHTML(child)
           .trim()
           .replace(/<ul[\s\S]*?<\/ul>/g, '')
-          .replace(/<ol[\s\S]*?<\/ol>/g, '');
+          .replace(/<ol[\s\S]*?<\/ol>/g, '')
+          .replace(/<li[\s\S]*?<\/li>/g, '');
         listItems.push(`<li>${listItemContent}</li>`);
 
         const nestedList = DomUtils.getChildren(child).find(
