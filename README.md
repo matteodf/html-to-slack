@@ -1,6 +1,7 @@
 # HTML to Slack
 
-[![version](https://img.shields.io/github/package-json/v/matteodf/html-to-slack)](https://img.shields.io/github/package-json/v/matteodf/html-to-slack)
+[![version](https://img.shields.io/github/package-json/v/matteodf/html-to-slack?color=blue)](https://img.shields.io/github/package-json/v/matteodf/html-to-slack)
+[![npm downloads](https://img.shields.io/npm/dy/html-to-slack)](https://www.npmjs.com/package/html-to-slack)
 
 A module to convert HTML strings to Slack blocks.
 
