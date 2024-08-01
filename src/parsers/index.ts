@@ -261,6 +261,11 @@ function parseText(
   return texts;
 }
 function compressHTML(html: string): string {
+  // Remove all malformed tags
+  const document = parseDocument(html);
+  const correctedHtml = DomUtils.getOuterHTML(document);
+  html = correctedHtml;
+
   // Use a regular expression to find content within <pre> tags and store it. SPACES
   const preTags: string[] = [];
   const preLeadingSpaces: string[] = [];

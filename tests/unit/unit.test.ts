@@ -526,6 +526,51 @@ describe('convertHtmlToSlackBlocks', () => {
     expect(blocks).toEqual(expectedBlocks);
   });
 
+  it('should handle malformed HTML', () => {
+    const html = `
+    <ul>
+      <li>
+        name of pr
+        <a href="https://github.com/reponame/reponame/pull/1605"
+          >https://github.com/reponame/reponame/pull/1605</a
+        >
+      </li>
+    </ul>
+    `;
+
+    const expectedBlocks = [
+      {
+        type: 'rich_text',
+        elements: [
+          {
+            type: 'rich_text_list',
+            style: 'bullet',
+            elements: [
+              {
+                type: 'rich_text_section',
+                elements: [
+                  {
+                    type: 'text',
+                    text: 'name of pr',
+                  },
+                  {
+                    type: 'link',
+                    url: 'https://github.com/reponame/reponame/pull/1605',
+                    text: 'https://github.com/reponame/reponame/pull/1605',
+                  },
+                ],
+              },
+            ],
+            indent: 0,
+          },
+        ],
+      },
+    ];
+
+    const blocks = convertHtmlToSlackBlocks(html);
+    expect(blocks).toEqual(expectedBlocks);
+  });
+
   // it('should not print empty headings', () => {
   //   const html = '<h1></h1>';
   //   const expectedBlocks: [] = [];
