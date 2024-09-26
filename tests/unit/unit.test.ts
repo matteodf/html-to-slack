@@ -718,6 +718,37 @@ describe('convertHtmlToSlackBlocks', () => {
     expect(blocks).toEqual(expectedBlocks);
   });
 
+  it('should fallback to plain text on underline tags', () => {
+    const html = '<p>Text with <u>underline</u>.</p>';
+    const expectedBlocks = [
+      {
+        type: 'rich_text',
+        elements: [
+          {
+            type: 'rich_text_section',
+            elements: [
+              {
+                type: 'text',
+                text: 'Text with ',
+              },
+              {
+                type: 'text',
+                text: 'underline',
+              },
+              {
+                type: 'text',
+                text: '.',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const blocks = convertHtmlToSlackBlocks(html);
+    expect(blocks).toEqual(expectedBlocks);
+  });
+
   it('should skip unsupported HTML tags', () => {
     const html = '<p>Text with <unsupported>unsupported tag</unsupported>.</p>';
     const expectedBlocks = [

@@ -17,7 +17,7 @@ import { blockBuilder, linearizeLists } from '../utils';
 /**
  * Parses HTML content and converts it to Slack blocks.
  *
- * @param {string} html - The HTML content to parse.
+ * @param {string} dom - The HTML content to parse.
  */
 
 function findDomElementsByTagName(dom: AnyNode[], tag: string) {
