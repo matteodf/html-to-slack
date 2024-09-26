@@ -63,6 +63,7 @@ function parseNodeElement(node: AnyNode) {
     case 'tag': {
       switch (node.name) {
         case 'b':
+        case 'u':
         case 'strong':
         case 'i':
         case 'em':
