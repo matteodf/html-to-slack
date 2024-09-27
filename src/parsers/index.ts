@@ -17,7 +17,7 @@ import { blockBuilder, linearizeLists } from '../utils';
 /**
  * Parses HTML content and converts it to Slack blocks.
  *
- * @param {string} html - The HTML content to parse.
+ * @param {string} dom - The HTML content to parse.
  */
 
 function findDomElementsByTagName(dom: AnyNode[], tag: string) {
@@ -63,6 +63,7 @@ function parseNodeElement(node: AnyNode) {
     case 'tag': {
       switch (node.name) {
         case 'b':
+        case 'u':
         case 'strong':
         case 'i':
         case 'em':
