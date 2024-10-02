@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1] - 2024-10-02
+
+### Fixed
+
+- Fixed bug on paragraphs containing only line breaks ([#4](https://github.com/matteodf/html-to-slack/issues/4)) that generated `rich_text_section` elements with empty `text` property, causing an error when sending the block to Slack API.
+
 ## [0.3.0] - 2024-09-27
 
 ### Added
