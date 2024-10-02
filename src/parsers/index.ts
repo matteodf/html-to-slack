@@ -271,6 +271,8 @@ function compressHTML(html: string): string {
   const preTags: string[] = [];
   const preLeadingSpaces: string[] = [];
 
+  html = html.replace(/<p><br\s*\/?><\/p>/g, '');
+
   html = html.replace(
     /([ \t]*)<pre>([\s\S]*?)<\/pre>/g,
     (match, leadingSpaces, content) => {

@@ -832,4 +832,46 @@ describe('convertHtmlToSlackBlocks', () => {
     const blocks = convertHtmlToSlackBlocks(html);
     expect(blocks).toEqual(expectedBlocks);
   });
+
+  it('should handle line breaks and clean up paragraphs with only line breaks', () => {
+    const html =
+      '<p>Some Text</p><p>More text without line break</p><p><br></p><p>text after an empty line</p>';
+    const expectedBlocks = [
+      {
+        type: 'rich_text',
+        elements: [
+          {
+            type: 'rich_text_section',
+            elements: [
+              {
+                type: 'text',
+                text: 'Some Text',
+              },
+            ],
+          },
+          {
+            type: 'rich_text_section',
+            elements: [
+              {
+                type: 'text',
+                text: 'More text without line break',
+              },
+            ],
+          },
+          {
+            type: 'rich_text_section',
+            elements: [
+              {
+                type: 'text',
+                text: 'text after an empty line',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const blocks = convertHtmlToSlackBlocks(html);
+    expect(blocks).toEqual(expectedBlocks);
+  });
 });
