@@ -98,7 +98,7 @@ describe('Functional Tests', () => {
               },
               {
                 type: 'text',
-                text: ' formatting.',
+                text: ' formatting.\n',
               },
             ],
           },
@@ -116,7 +116,7 @@ describe('Functional Tests', () => {
               },
               {
                 type: 'text',
-                text: ' website.',
+                text: ' website.\n',
               },
             ],
           },
@@ -255,7 +255,7 @@ describe('Functional Tests', () => {
             elements: [
               {
                 type: 'text',
-                text: 'Here is an image for testing:',
+                text: 'Here is an image for testing:\n',
               },
             ],
           },
@@ -281,7 +281,7 @@ describe('Functional Tests', () => {
             elements: [
               {
                 type: 'text',
-                text: 'First paragraph of multiple paragraphs.',
+                text: 'First paragraph of multiple paragraphs.\n',
               },
             ],
           },
@@ -290,7 +290,7 @@ describe('Functional Tests', () => {
             elements: [
               {
                 type: 'text',
-                text: 'Second paragraph of multiple paragraphs.',
+                text: 'Second paragraph of multiple paragraphs.\n',
               },
             ],
           },
@@ -383,7 +383,7 @@ describe('Functional Tests', () => {
               },
               {
                 type: 'text',
-                text: '.',
+                text: '.\n',
               },
             ],
           },
@@ -401,7 +401,7 @@ describe('Functional Tests', () => {
               },
               {
                 type: 'text',
-                text: ' website.',
+                text: ' website.\n',
               },
             ],
           },
@@ -567,7 +567,7 @@ describe('Functional Tests', () => {
             elements: [
               {
                 type: 'text',
-                text: 'Here is an image for testing:',
+                text: 'Here is an image for testing:\n',
               },
             ],
           },
@@ -597,7 +597,7 @@ describe('Functional Tests', () => {
             elements: [
               {
                 type: 'text',
-                text: 'First paragraph of multiple paragraphs.',
+                text: 'First paragraph of multiple paragraphs.\n',
               },
             ],
           },
@@ -606,7 +606,7 @@ describe('Functional Tests', () => {
             elements: [
               {
                 type: 'text',
-                text: 'Second paragraph of multiple paragraphs.',
+                text: 'Second paragraph of multiple paragraphs.\n',
               },
             ],
           },
@@ -689,7 +689,7 @@ describe('Functional Tests', () => {
               },
               {
                 type: 'text',
-                text: ' this.',
+                text: ' this.\n',
               },
             ],
           },
@@ -744,7 +744,7 @@ describe('Functional Tests', () => {
               },
               {
                 type: 'text',
-                text: ' tags.',
+                text: ' tags.\n',
               },
             ],
           },
@@ -765,7 +765,7 @@ describe('Functional Tests', () => {
             elements: [
               {
                 type: 'text',
-                text: 'Another paragraph.',
+                text: 'Another paragraph.\n',
               },
             ],
           },

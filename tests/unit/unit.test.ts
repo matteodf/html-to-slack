@@ -23,7 +23,7 @@ describe('convertHtmlToSlackBlocks', () => {
               },
               {
                 type: 'text',
-                text: '!',
+                text: '!\n',
               },
             ],
           },
@@ -46,7 +46,7 @@ describe('convertHtmlToSlackBlocks', () => {
             elements: [
               {
                 type: 'text',
-                text: 'First paragraph.',
+                text: 'First paragraph.\n',
               },
             ],
           },
@@ -55,7 +55,7 @@ describe('convertHtmlToSlackBlocks', () => {
             elements: [
               {
                 type: 'text',
-                text: 'Second paragraph.',
+                text: 'Second paragraph.\n',
               },
             ],
           },
@@ -97,7 +97,7 @@ describe('convertHtmlToSlackBlocks', () => {
               },
               {
                 type: 'text',
-                text: '!',
+                text: '!\n',
               },
             ],
           },
@@ -416,7 +416,7 @@ describe('convertHtmlToSlackBlocks', () => {
             elements: [
               {
                 type: 'text',
-                text: 'Line 1\nLine 2',
+                text: 'Line 1\nLine 2\n',
               },
             ],
           },
@@ -476,7 +476,7 @@ describe('convertHtmlToSlackBlocks', () => {
               },
               {
                 type: 'text',
-                text: ' command.',
+                text: ' command.\n',
               },
             ],
           },
@@ -671,7 +671,7 @@ describe('convertHtmlToSlackBlocks', () => {
               },
               {
                 type: 'text',
-                text: '.',
+                text: '.\n',
               },
             ],
           },
@@ -737,7 +737,7 @@ describe('convertHtmlToSlackBlocks', () => {
               },
               {
                 type: 'text',
-                text: '.',
+                text: '.\n',
               },
             ],
           },
@@ -764,7 +764,7 @@ describe('convertHtmlToSlackBlocks', () => {
               },
               {
                 type: 'text',
-                text: '.',
+                text: '.\n',
               },
             ],
           },
@@ -821,7 +821,7 @@ describe('convertHtmlToSlackBlocks', () => {
             elements: [
               {
                 type: 'text',
-                text: 'Entities: & < > " \'',
+                text: 'Entities: & < > " \'\n',
               },
             ],
           },
@@ -845,7 +845,7 @@ describe('convertHtmlToSlackBlocks', () => {
             elements: [
               {
                 type: 'text',
-                text: 'Some Text',
+                text: 'Some Text\n',
               },
             ],
           },
@@ -854,7 +854,7 @@ describe('convertHtmlToSlackBlocks', () => {
             elements: [
               {
                 type: 'text',
-                text: 'More text without line break',
+                text: 'More text without line break\n',
               },
             ],
           },
@@ -863,7 +863,7 @@ describe('convertHtmlToSlackBlocks', () => {
             elements: [
               {
                 type: 'text',
-                text: 'text after an empty line',
+                text: 'text after an empty line\n',
               },
             ],
           },
