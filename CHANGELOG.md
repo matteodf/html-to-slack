@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.2] - 2024-10-03
+
+### Fixed
+
+- Fixed a bug with paragraphs that did not have line breaks at the end (as mentioned in [#4](https://github.com/matteodf/html-to-slack/issues/4)), which caused text to be displayed on the same line.
+
 ## [0.3.1] - 2024-10-02
 
 ### Fixed

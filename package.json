@@ -1,6 +1,6 @@
 {
   "name": "html-to-slack",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A module to convert HTML strings to Slack blocks",
   "type": "module",
   "main": "dist/index.js",
