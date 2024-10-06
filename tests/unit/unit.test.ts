@@ -835,7 +835,7 @@ describe('convertHtmlToSlackBlocks', () => {
 
   it('should handle line breaks and clean up paragraphs with only line breaks', () => {
     const html =
-      '<p>Some Text</p><p>More text without line break</p><p><br></p><p>text after an empty line</p>';
+      '<p>Some Text</p><p>More text without line break</p><p><br></p><p><br><br/></p><p>text after an empty line</p>';
     const expectedBlocks = [
       {
         type: 'rich_text',
@@ -864,6 +864,64 @@ describe('convertHtmlToSlackBlocks', () => {
               {
                 type: 'text',
                 text: 'text after an empty line\n',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const blocks = convertHtmlToSlackBlocks(html);
+    expect(blocks).toEqual(expectedBlocks);
+  });
+
+  it('should handle img tags inside paragraphs and properly send them', () => {
+    const html =
+      '<p><img src="https://example.com/example.png" alt="Text" /></p>';
+    const expectedBlocks = [
+      {
+        type: 'image',
+        image_url: 'https://example.com/example.png',
+        alt_text: 'Text',
+      },
+    ];
+
+    const blocks = convertHtmlToSlackBlocks(html);
+    expect(blocks).toEqual(expectedBlocks);
+  });
+
+  it('should handle img tags inside paragraphs with text and properly send them', () => {
+    const html =
+      '<p>Text <img src="https://example.com/example.png" alt="Text" /> another text</p>';
+    const expectedBlocks = [
+      {
+        type: 'rich_text',
+        elements: [
+          {
+            type: 'rich_text_section',
+            elements: [
+              {
+                type: 'text',
+                text: 'Text\n',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'image',
+        image_url: 'https://example.com/example.png',
+        alt_text: 'Text',
+      },
+      {
+        type: 'rich_text',
+        elements: [
+          {
+            type: 'rich_text_section',
+            elements: [
+              {
+                type: 'text',
+                text: 'another text\n',
               },
             ],
           },

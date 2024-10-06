@@ -271,7 +271,27 @@ function compressHTML(html: string): string {
   const preTags: string[] = [];
   const preLeadingSpaces: string[] = [];
 
-  html = html.replace(/<p><br\s*\/?><\/p>/g, '');
+  html = html.replace(
+    /<p>([^<]*)<img([^>]*)\/?>([^<]*)<\/p>/g,
+    (match, beforeImage, imgAttributes, afterImage) => {
+      // Format the separated parts as:
+      // <p>before the image</p><img ... /><p>after the image</p>
+      let newHtml = '';
+
+      // Handle the text before the image
+      newHtml += `<p>${beforeImage.trim()}</p>`;
+
+      // Reconstruct the img tag
+      newHtml += `<img${imgAttributes}/>`;
+
+      // Handle the text after the image
+      newHtml += `<p>${afterImage.trim()}</p>`;
+
+      return newHtml;
+    }
+  );
+
+  html = html.replace(/<p>(\s*(<br\s*\/?>)\s*)*<\/p>/g, '');
 
   html = html.replace(
     /([ \t]*)<pre>([\s\S]*?)<\/pre>/g,
