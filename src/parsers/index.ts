@@ -345,6 +345,7 @@ function compressHTML(html: string): string {
       content = content.replace(/(\S)(<b>|<i>|<code>)/g, '$1 $2'); // space before tags
       return `<p>${content}\n</p>`;
     })
+    .replace(/\n+<\/p>/g, '\n</p>')
     .replace(/>\n<\/p>/g, '></p>');
   return html;
 }

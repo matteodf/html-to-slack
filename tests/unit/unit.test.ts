@@ -875,6 +875,31 @@ describe('convertHtmlToSlackBlocks', () => {
     expect(blocks).toEqual(expectedBlocks);
   });
 
+  it('should handle line breaks at the end', () => {
+    const html = '<p>Some text here<br/></p>';
+    const expectedBlocks = [
+      {
+        type: 'rich_text',
+        elements: [
+          {
+            type: 'rich_text_section',
+            elements: [
+              {
+                type: 'text',
+                text: 'Some text here\n',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const blocks = convertHtmlToSlackBlocks(html);
+    console.log(JSON.stringify(blocks, null, 2));
+
+    expect(blocks).toEqual(expectedBlocks);
+  });
+
   it('should handle img tags inside paragraphs and properly send them', () => {
     const html =
       '<p><img src="https://example.com/example.png" alt="Text" /></p>';
