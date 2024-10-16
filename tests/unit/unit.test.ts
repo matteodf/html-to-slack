@@ -577,7 +577,6 @@ describe('convertHtmlToSlackBlocks', () => {
 
   //   const blocks = convertHtmlToSlackBlocks(html);
 
-  //   console.log("BRO");
   //   console.log(JSON.stringify(blocks, null, 2));
   //   expect(blocks).toEqual(expectedBlocks);
   // });
@@ -895,7 +894,36 @@ describe('convertHtmlToSlackBlocks', () => {
     ];
 
     const blocks = convertHtmlToSlackBlocks(html);
-    console.log(JSON.stringify(blocks, null, 2));
+
+    expect(blocks).toEqual(expectedBlocks);
+  });
+
+  it('should handle paragraphs with line breaks and img tags', () => {
+    const html =
+      '<p>Some text here<br/><img src="https://picsum.photos/200" alt="Example Image"></p>';
+    const expectedBlocks = [
+      {
+        type: 'rich_text',
+        elements: [
+          {
+            type: 'rich_text_section',
+            elements: [
+              {
+                type: 'text',
+                text: 'Some text here\n',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'image',
+        image_url: 'https://picsum.photos/200',
+        alt_text: 'Example Image',
+      },
+    ];
+
+    const blocks = convertHtmlToSlackBlocks(html);
 
     expect(blocks).toEqual(expectedBlocks);
   });

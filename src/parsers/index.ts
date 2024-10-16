@@ -272,7 +272,7 @@ function compressHTML(html: string): string {
   const preLeadingSpaces: string[] = [];
 
   html = html.replace(
-    /<p>([^<]*)<img([^>]*)\/?>([^<]*)<\/p>/g,
+    /<p>(.*?)<img([^>]*)\/?>(.*?)<\/p>/g,
     (match, beforeImage, imgAttributes, afterImage) => {
       // Format the separated parts as:
       // <p>before the image</p><img ... /><p>after the image</p>
