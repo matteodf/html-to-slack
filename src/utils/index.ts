@@ -90,15 +90,22 @@ export function blockBuilder(
   for (let i = 0; i < array.length; i++) {
     const block = array[i];
     if (block.type === 'image' || block.type === 'header') {
-      if (richTextBlocks.elements.length > 0) {
-        blocks.push(richTextBlocks);
+      const filteredElements = richTextBlocks.elements.filter(
+        (element) => Object.keys(element).length > 0
+      );
+
+      if (filteredElements.length > 0) {
+        blocks.push({
+          ...richTextBlocks,
+          elements: filteredElements,
+        });
         richTextBlocks = {
           type: 'rich_text',
           elements: [],
         };
       }
       blocks.push(block);
-    } else {
+    } else if (Object.keys(block).length > 0) {
       richTextBlocks.elements.push(block);
     }
   }

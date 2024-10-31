@@ -1,4 +1,7 @@
 import convertHtmlToSlackBlocks from '../../src/index';
+import { HeaderBlock } from '../../src/types/headerBlock';
+import { ImageBlockUrl, ImageBlockSlack } from '../../src/types/imageBlock';
+import { RichTextBlock } from '../../src/types/richTextBlock';
 
 describe('convertHtmlToSlackBlocks', () => {
   it('should convert simple HTML to Slack blocks', () => {
@@ -985,4 +988,88 @@ describe('convertHtmlToSlackBlocks', () => {
     const blocks = convertHtmlToSlackBlocks(html);
     expect(blocks).toEqual(expectedBlocks);
   });
+
+  it('should not create empty objects when handling unknown tags and wrap legal tags in <p>', () => {
+    const html = '<test></test><br/><b>Test</b>Test';
+    const expectedBlocks: (
+      | RichTextBlock
+      | HeaderBlock
+      | ImageBlockUrl
+      | ImageBlockSlack
+    )[] = [
+      {
+        type: 'rich_text',
+        elements: [
+          {
+            type: 'rich_text_section',
+            elements: [
+              {
+                type: 'text',
+                text: 'Test',
+                style: {
+                  bold: true,
+                },
+              },
+              {
+                type: 'text',
+                text: 'Test\n',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const blocks = convertHtmlToSlackBlocks(html);
+    expect(blocks).toEqual(expectedBlocks);
+  });
+
+  it('should not create empty objects when handling unknown tags', () => {
+    const html = '<p><p>Inside</p><b>Outside</b></p>';
+    const expectedBlocks: (
+      | RichTextBlock
+      | HeaderBlock
+      | ImageBlockUrl
+      | ImageBlockSlack
+    )[] = [
+      {
+        type: 'rich_text',
+        elements: [
+          {
+            type: 'rich_text_section',
+            elements: [
+              {
+                type: 'text',
+                text: 'Inside\n',
+              },
+            ],
+          },
+          {
+            type: 'rich_text_section',
+            elements: [
+              {
+                type: 'text',
+                text: 'Outside',
+                style: {
+                  bold: true,
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const blocks = convertHtmlToSlackBlocks(html);
+    expect(blocks).toEqual(expectedBlocks);
+  });
+
+  // it('should have a consistent behaviour between p with illegal tags and empty paragraphs', () => {
+  //   const html1 = '<p></p>';
+  //   const html2 = '<p><test></test></p>';
+
+  //   const blocks1 = convertHtmlToSlackBlocks(html1);
+  //   const blocks2 = convertHtmlToSlackBlocks(html2);
+  //   expect(blocks1).toEqual(blocks2);
+  // });
 });

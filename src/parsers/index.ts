@@ -1,4 +1,4 @@
-import { AnyNode, Element } from 'domhandler';
+import { AnyNode, Element, ChildNode } from 'domhandler';
 import { parseDocument, DomUtils } from 'htmlparser2';
 import { HeaderBlock } from '../types/headerBlock';
 import { ImageBlock } from '../types/imageBlock';
@@ -264,6 +264,82 @@ function parseText(
 function compressHTML(html: string): string {
   // Remove all malformed tags
   const document = parseDocument(html);
+
+  const inlineTags = new Set([
+    'b',
+    'strong',
+    'i',
+    'em',
+    'u',
+    'code',
+    'span',
+    'a',
+    'small',
+    'big',
+    'mark',
+    'del',
+    'ins',
+    'sub',
+    'sup',
+    'abbr',
+    'cite',
+    'dfn',
+    'kbd',
+    'samp',
+    'var',
+    // Add more inline tags as needed
+  ]);
+
+  // Function to check if a node is an inline element or a non-empty text node
+  const isInlineOrText = (node: AnyNode): boolean => {
+    if (node.type === 'tag' && inlineTags.has(node.name)) {
+      return true;
+    }
+    if (node.type === 'text' && node.data.trim() !== '') {
+      return true;
+    }
+    return false;
+  };
+
+  // Initialize a new array to hold the modified child nodes
+  const newChildren: (Element | ChildNode)[] = [];
+  let currentGroup: ChildNode[] = [];
+
+  // Iterate through each top-level child node
+  document.children.forEach((node) => {
+    if (node.type === 'tag' && node.name === 'p') {
+      // If there's an existing group, wrap it in <p> and add to newChildren
+      if (currentGroup.length > 0) {
+        const p = new Element('p', {}, currentGroup);
+        newChildren.push(p);
+        currentGroup = [];
+      }
+      // Add the existing <p> tag as is
+      newChildren.push(node);
+    } else if (isInlineOrText(node)) {
+      // If the node is inline or text, add it to the current group
+      currentGroup.push(node);
+    } else {
+      // For other block-level elements or nodes
+      if (currentGroup.length > 0) {
+        const p = new Element('p', {}, currentGroup);
+        newChildren.push(p);
+        currentGroup = [];
+      }
+      // Add the current node as is
+      newChildren.push(node);
+    }
+  });
+
+  // After iteration, check if there's any remaining group to wrap
+  if (currentGroup.length > 0) {
+    const p = new Element('p', {}, currentGroup);
+    newChildren.push(p);
+  }
+
+  // Replace the document's children with the new modified children
+  document.children = newChildren;
+
   const correctedHtml = DomUtils.getOuterHTML(document);
   html = correctedHtml;
 
