@@ -41,6 +41,14 @@ const blocks = htmlToSlack(html);
 console.log(blocks);
 ```
 
+## Future improvement and known issues
+
+This is a work in progress and a lot of things need to be done better. Here is a list of already known issues and improvements:
+
+- `<p>` tags that end with an inline tag do not end with a new line, but they should.
+- Inconsistency between `<p>` tags containing only illegal tags and empty `<p>` tags (see [issue #8](https://github.com/matteodf/html-to-slack/issues/8)).
+- Improve readability for longer posts (see [issue #4](https://github.com/matteodf/html-to-slack/issues/4#issuecomment-2415321519)).
+
 ## Contributing
 
 We welcome contributions! Here are some ways you can help:
