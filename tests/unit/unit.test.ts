@@ -1064,6 +1064,72 @@ describe('convertHtmlToSlackBlocks', () => {
     expect(blocks).toEqual(expectedBlocks);
   });
 
+  it('should not generate empty text blocks', () => {
+    const html =
+      '<h3>Bug Fixes</h3>\n<ul>\n<li><strong>cli:</strong> lambda hotswap fails if <code>lambda:GetFunctionConfiguration</code> action is not allowed  (<a href="https://github.com/aws/aws-cdk/issues/32301" data-hovercard-type="pull_request" data-hovercard-url="/aws/aws-cdk/pull/32301/hovercard">#32301</a>) (<a href="https://github.com/aws/aws-cdk/commit/a073e9302dbd4213275e99c86476ab8152af7caf">a073e93</a>), closes <a href="https://github.com/aws//github.com/aws/aws-sdk-js-v3/blob/main/clients/client-lambda/src/waiters/waitForFunctionUpdatedV2.ts/issues/L10">/github.com/aws/aws-sdk-js-v3/blob/main/clients/client-lambda/src/waiters/waitForFunctionUpdatedV2.ts#L10</a> <a href="https://github.com/aws//github.com/aws/aws-sdk-js-v3/blob/main/clients/client-lambda/src/waiters/waitForFunctionUpdated.ts/issues/L13">/github.com/aws/aws-sdk-js-v3/blob/main/clients/client-lambda/src/waiters/waitForFunctionUpdated.ts#L13</a></li>\n</ul>\n<hr>\n<h2>Alpha modules (2.171.1-alpha.0)</h2>';
+
+    const expectedBlocks = [
+      { type: 'header', text: { type: 'plain_text', text: 'Bug Fixes' } },
+      {
+        type: 'rich_text',
+        elements: [
+          {
+            type: 'rich_text_list',
+            style: 'bullet',
+            elements: [
+              {
+                type: 'rich_text_section',
+                elements: [
+                  { type: 'text', text: 'cli:', style: { bold: true } },
+                  { type: 'text', text: ' lambda hotswap fails if ' },
+                  {
+                    type: 'text',
+                    text: 'lambda:GetFunctionConfiguration',
+                    style: { code: true },
+                  },
+                  { type: 'text', text: ' action is not allowed  (' },
+                  {
+                    type: 'link',
+                    url: 'https://github.com/aws/aws-cdk/issues/32301',
+                    text: '#32301',
+                  },
+                  { type: 'text', text: ') (' },
+                  {
+                    type: 'link',
+                    url: 'https://github.com/aws/aws-cdk/commit/a073e9302dbd4213275e99c86476ab8152af7caf',
+                    text: 'a073e93',
+                  },
+                  { type: 'text', text: '), closes ' },
+                  {
+                    type: 'link',
+                    url: 'https://github.com/aws//github.com/aws/aws-sdk-js-v3/blob/main/clients/client-lambda/src/waiters/waitForFunctionUpdatedV2.ts/issues/L10',
+                    text: '/github.com/aws/aws-sdk-js-v3/blob/main/clients/client-lambda/src/waiters/waitForFunctionUpdatedV2.ts#L10',
+                  },
+                  {
+                    text: ' ',
+                    type: 'text',
+                  },
+                  {
+                    type: 'link',
+                    url: 'https://github.com/aws//github.com/aws/aws-sdk-js-v3/blob/main/clients/client-lambda/src/waiters/waitForFunctionUpdated.ts/issues/L13',
+                    text: '/github.com/aws/aws-sdk-js-v3/blob/main/clients/client-lambda/src/waiters/waitForFunctionUpdated.ts#L13',
+                  },
+                ],
+              },
+            ],
+            indent: 0,
+          },
+        ],
+      },
+      {
+        type: 'header',
+        text: { type: 'plain_text', text: 'Alpha modules (2.171.1-alpha.0)' },
+      },
+    ];
+    const blocks = convertHtmlToSlackBlocks(html);
+    expect(blocks).toEqual(expectedBlocks);
+  });
+
   // it('should have a consistent behaviour between p with illegal tags and empty paragraphs', () => {
   //   const html1 = '<p></p>';
   //   const html2 = '<p><test></test></p>';

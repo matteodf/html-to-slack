@@ -250,7 +250,7 @@ function parseText(
   } else if (node.type === 'text') {
     const textElement: RichText = {
       type: 'text',
-      text: node.data.replace(/<br ?\/?>/g, '\n').replace(/^\s*$/, ''),
+      text: node.data.replace(/<br ?\/?>/g, '\n'),
     };
 
     if (Object.keys(style).length > 0) {
