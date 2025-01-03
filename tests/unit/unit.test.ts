@@ -958,7 +958,7 @@ describe('convertHtmlToSlackBlocks', () => {
             elements: [
               {
                 type: 'text',
-                text: 'Text\n',
+                text: 'Text \n',
               },
             ],
           },
@@ -977,7 +977,56 @@ describe('convertHtmlToSlackBlocks', () => {
             elements: [
               {
                 type: 'text',
-                text: 'another text\n',
+                text: ' another text\n',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const blocks = convertHtmlToSlackBlocks(html);
+    expect(blocks).toEqual(expectedBlocks);
+  });
+
+  it('should handle img tags inside paragraphs with formatted text in a proper way', () => {
+    const html =
+      '<p><b>Text <img src="https://example.com/example.png" alt="Text" /> another text</b></p>';
+    const expectedBlocks = [
+      {
+        type: 'rich_text',
+        elements: [
+          {
+            type: 'rich_text_section',
+            elements: [
+              {
+                type: 'text',
+                text: 'Text ',
+                style: {
+                  bold: true,
+                },
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'image',
+        image_url: 'https://example.com/example.png',
+        alt_text: 'Text',
+      },
+      {
+        type: 'rich_text',
+        elements: [
+          {
+            type: 'rich_text_section',
+            elements: [
+              {
+                type: 'text',
+                text: ' another text',
+                style: {
+                  bold: true,
+                },
               },
             ],
           },

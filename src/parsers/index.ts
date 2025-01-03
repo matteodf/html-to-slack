@@ -348,20 +348,37 @@ function compressHTML(html: string): string {
   const preLeadingSpaces: string[] = [];
 
   html = html.replace(
-    /<p>(.*?)<img([^>]*)\/?>(.*?)<\/p>/g,
-    (match, beforeImage, imgAttributes, afterImage) => {
-      // Format the separated parts as:
-      // <p>before the image</p><img ... /><p>after the image</p>
-      let newHtml = '';
+    /<p>((?:<[^>]+>)*)(.*?)<img([^>]*)\/?>(.*?)<\/p>/g,
+    (match, beforeTags, beforeImage, imgAttributes, afterImage) => {
+      // Extract the list of open tags before the <img>
+      const openTagsMatch = beforeTags.match(/<(\w+)>/g);
+      const openTags = openTagsMatch
+        ? openTagsMatch.map((tag: string) => tag.replace(/[<>]/g, ''))
+        : [];
 
-      // Handle the text before the image
-      newHtml += `<p>${beforeImage.trim()}</p>`;
+      // Extract the list of closing tags after the <img>
+      const closeTagsMatch = afterImage.match(/<\/(\w+)>/g);
+      const closeTags = closeTagsMatch
+        ? closeTagsMatch.map((tag: string) => tag.replace(/<\/|>/g, ''))
+        : [];
 
-      // Reconstruct the img tag
-      newHtml += `<img${imgAttributes}/>`;
+      // Ensure that the open and close tags match
+      const tagsToClose = openTags.slice(0, closeTags.length);
+      const tagsToOpen = tagsToClose.slice().reverse();
 
-      // Handle the text after the image
-      newHtml += `<p>${afterImage.trim()}</p>`;
+      // Close the tags before the <img>
+      const closingTags = tagsToClose
+        .map((tag: string) => `</${tag}>`)
+        .join('');
+
+      // Reopen the tags after the <img>
+      const openingTags = tagsToOpen.map((tag: string) => `<${tag}>`).join('');
+
+      // Construct the new HTML with properly closed and reopened tags
+      const newHtml =
+        `<p>${beforeTags}${beforeImage}${closingTags}</p>` +
+        `<img${imgAttributes}/>` +
+        `<p>${openingTags}${afterImage}</p>`;
 
       return newHtml;
     }
